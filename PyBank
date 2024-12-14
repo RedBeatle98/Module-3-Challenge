@@ -1,0 +1,69 @@
+import csv
+import os
+
+
+file_to_load = os.path.join("Resources", "budget_data.csv")
+file_to_output = os.path.join("analysis", "budget_analysis.txt")
+
+total_months = 0
+total_net = []
+
+
+with open(file_to_load, 'r') as financial_data:
+
+    reader = csv.reader(financial_data)
+
+    header = next(reader)
+
+    for row in reader:
+
+        total_months += 1
+
+        total_net.append(row[1])
+        total_net_numbers = [int(item) for item in total_net]
+        total_net_profits = sum(total_net_numbers)
+        
+    profit_change = [total_net_numbers[i] - total_net_numbers[i - 1] for i in range(1, len(total_net_numbers))]
+    profit_change_numbers = [int(item) for item in profit_change]
+
+    max_value = max(profit_change_numbers)
+
+    min_value = min(profit_change_numbers)
+
+average_net = sum(profit_change_numbers) / len(profit_change_numbers)
+
+
+print("\n")
+print("Financial Analysis")
+print("\n")
+print("----------------------------")
+print("\n")
+print(f"Total Months: {total_months}")
+print("\n")
+print(f"Total: ${total_net_profits}")
+print("\n")
+print(f"Average Change: ${average_net:.2f}")
+print("\n")
+print(f"Greatest Increase in Profits: (${max_value})")
+print("\n")
+print(f"Greatest Decrease in Profits: (${min_value})")
+print("\n")
+
+
+with open(file_to_output, "w") as txt_file:
+
+    txt_file.write("\n")
+    txt_file.write("Financial Analysis")
+    txt_file.write("\n")
+    txt_file.write("----------------------------")
+    txt_file.write("\n")
+    txt_file.write(f"Total Months: {total_months}")
+    txt_file.write("\n")
+    txt_file.write(f"Total: ${total_net_profits}")
+    txt_file.write("\n")
+    txt_file.write(f"Average Change: ${average_net:.2f}")
+    txt_file.write("\n")
+    txt_file.write(f"Greatest Increase in Profits: (${max_value})")
+    txt_file.write("\n")
+    txt_file.write(f"Greatest Decrease in Profits: (${min_value})")
+    txt_file.write("\n")
